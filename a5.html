@@ -18,7 +18,7 @@
       display: block;  /* No floating content on sides */
     }
 canvas {
-    border: 0px solid #d3d3d3;
+    /* border: 0px solid #d3d3d3; */
     background-color: #f1f1f1;
 }
 </style>
@@ -36,9 +36,9 @@ var myGamePiece3;
 
 function startGame() {
     myGameArea.start();
-    myGamePiece1 = new component(40, 40, "red", 50, 120, shapesTp.Rect);
-    myGamePiece2 = new component(40, 40, "red", 150, 120, shapesTp.Trng);
-    myGamePiece3 = new component(40, 40, "red", 250, 120, shapesTp.Crcl);
+    myGamePiece1 = new component(30, 30, "red", 50, 120, shapesTp.Rect);
+    myGamePiece2 = new component(30, 30, "red", 150, 120, shapesTp.Trng);
+    myGamePiece3 = new component(30, 30, "red", 250, 120, shapesTp.Crcl);
 	
 
 }
