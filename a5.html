@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)http://gllt.myweb.ge/w/w3/gm1/a5.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- http://htmlcheats.com/html/resize-the-html5-canvas-dyamically/ -->
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        border: none;
+    }
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0px;
+      border: 0;
+      overflow: hidden; /*  Disable scrollbars */
+      display: block;  /* No floating content on sides */
+    }
+canvas {
+    border: 0px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+</head>
+<body onload="startGame()"><canvas width="1920" height="1094"></canvas><script>
+var shapesTp = {
+    Rect : 1,
+    Crcl : 2,
+    Trng : 3
+}
+
+var myGamePiece1;
+var myGamePiece2;
+var myGamePiece3;
+
+function startGame() {
+    myGameArea.start();
+    myGamePiece1 = new component(40, 40, "red", 50, 120, shapesTp.Rect);
+    myGamePiece2 = new component(40, 40, "red", 150, 120, shapesTp.Trng);
+    myGamePiece3 = new component(40, 40, "red", 250, 120, shapesTp.Crcl);
+	
+
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = window.innerWidth; // screen.width;
+        this.canvas.height = window.innerHeight; // screen.height;
+        this.context = this.canvas.getContext("2d");
+		
+		this.context.strokeStyle = 'blue';
+		this.context.lineWidth = '5';
+		this.context.strokeRect(0, 0, window.innerWidth, window.innerHeight);
+		
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    }
+}
+
+function component(width, height, color, x, y, tp) {
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;    
+    this.ctx = myGameArea.context;
+    this.ctx.fillStyle = color;
+    
+    this.ctx.drwCrcl = function(x1,y1, w1, h1, clr1) {
+        this.beginPath();
+        this.arc(x1, y1, (w1/2), 0, 2 * Math.PI, false);
+        this.strokeStyle = clr1; //'#003300';
+        this.stroke();
+        this.fill();
+
+        this.fillStyle = "#000000";
+        this.fillRect(x1-2, y1-2, 4, 4);
+    }
+    this.ctx.drwTrng = function(x1,y1, w1, h1, clr1) {
+        this.beginPath();
+        this.moveTo(x1, y1-(h1/2));
+        this.lineTo(x1, y1+(h1/2));
+        this.lineTo(x1+w1, y1);
+        this.closePath();
+        this.lineWidth = 10;
+        this.strokeStyle = clr1; // '#666666';
+        this.stroke();
+        this.fill();
+
+        this.fillStyle = "#000000";
+        this.fillRect(x1-2, y1-2, 4, 4);
+
+    }
+    this.ctx.drwRect = function(x1,y1, w1, h1, clr1) {
+        this.fillRect(x1-(w1/2), y1-(h1/2), w1, h1);
+
+        this.fillStyle = "#000000";
+        this.fillRect(x1-2, y1-2, 4, 4);
+    }
+
+    
+
+    switch (tp) {
+        case shapesTp.Rect:
+        this.ctx.drwRect(this.x, this.y, this.width, this.height, color);
+            break;
+            case shapesTp.Crcl:
+            this.ctx.drwCrcl(this.x, this.y, this.width, this.height, color);    
+            break;
+            case shapesTp.Trng:
+            this.ctx.drwTrng(this.x, this.y, this.width, this.height, color);
+            break;
+    
+        default:
+            break;
+    }
+    
+}
+</script>
+</body></html>
