@@ -17,8 +17,8 @@
     left : 50%;
     width : 480px;
     height : 270px;
-    margin-top : -135px; /*set to a negative number 1/2 of your height*/
-    margin-left : -240px; /*set to a negative number 1/2 of your width*/
+    margin-top : -135px; 
+    margin-left : -240px; 
     border : 1px solid #ccc;
     background-color : #f3f3f3;
     }
@@ -60,12 +60,21 @@ var myGameArea = {
         this.canvas.height = gmCfg.height();
         this.context = this.canvas.getContext("2d");
         document.getElementById("mainDiv").insertBefore(this.canvas,  document.getElementById("childNode0"));
+        this.xyTop = document.getElementById("mainDiv").offsetTop;
+        this.xyLeft = document.getElementById("mainDiv").offsetLeft;
+        this.canvas.style.cursor = "none"; //hide the original cursor
+        
         this.interval = setInterval(updateGameArea, gmCfg.setIntervalMlSec());
         window.addEventListener('keydown', function (e) {
             myGameArea.key = e.keyCode;
         })
         window.addEventListener('keyup', function (e) {
             myGameArea.key = false;
+        })
+        window.addEventListener('mousemove', function (e) {
+            myGameArea.x = e.pageX - myGameArea.xyLeft ;
+            myGameArea.y = e.pageY - myGameArea.xyTop ;
+            //console.log(myGameArea.x);
         })
     }, 
     clear : function(){
@@ -105,7 +114,13 @@ function updateGameArea() {
     if (myGameArea.key && myGameArea.key == 39) {myGamePiece.speedX = 1; }
     if (myGameArea.key && myGameArea.key == 38) {myGamePiece.speedY = -1; }
     if (myGameArea.key && myGameArea.key == 40) {myGamePiece.speedY = 1; }
-    myGamePiece.newPos();    
+    //myGamePiece.newPos();    
+
+    if (myGameArea.x && myGameArea.y) {
+        myGamePiece.x = myGameArea.x;
+        myGamePiece.y = myGameArea.y; 
+    }
+
     myGamePiece.update();
 }
 </script>
