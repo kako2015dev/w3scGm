@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>    
 <body>
@@ -11,16 +12,16 @@ var gz = {};
 gz.mp = {}; // main parmeters
 gz.st = {}; // state curent
 
-gz.mp.wd = 12;
-gz.mp.l = 60;
+gz.mp.wd = 6;
+gz.mp.l = 30;
 gz.mp.colorGza =  "#FF0000";
 gz.mp.colorGzaShuaZoli =  "#FF5500";
 
-gz.st.x = 12;
-gz.st.y = 80;
-gz.st.xx = 20;
-gz.st.yy = 80;
-gz.st.direction = "L"; // L=> R=<  T=^ B=!^
+gz.st.x = 10;
+gz.st.y = 50;
+gz.st.xx = 10;
+gz.st.yy = 50;
+gz.st.direction = "R"; // L=> R=<  T=^ B=!^
 
 // es davamate from H ----
 //var wd = 20; // 1/6 sigane gzis, 2*wd = ShuaZoli
@@ -68,26 +69,56 @@ ct.fillRect(x, y-h,l,2*h);
 gz.st.xx = x + l;
 }   
 function gzMove(ct, x,y,l,h,clr,clr2,direction) {
-ct.fillStyle = clr;
-ct.fillRect(x, y-3*h,l,6*h);
+    if  (direction=="R") {
+        ct.fillStyle = clr;
+        ct.fillRect(x, y-3*h,l,6*h);
 
-ct.fillStyle = clr2;
-ct.fillRect(x, y-h,l,2*h);
+        ct.fillStyle = clr2;
+        ct.fillRect(x, y-h,l,2*h);
 
-gz.st.xx = x + l;
+        gz.st.xx = x + l;
+
+    }
+    if  (direction=="L") {
+        ct.fillStyle = clr;
+        ct.fillRect(x-l, y-3*h,l,6*h);
+
+        ct.fillStyle = clr2;
+        ct.fillRect(x-l, y-h,l,2*h);
+
+        gz.st.xx = x - l;
+    }
+    if  (direction=="T") {
+        ct.fillStyle = clr;
+        ct.fillRect(x-3*h, y-l,6*h, l);
+
+        ct.fillStyle = clr2;
+        ct.fillRect(x-h, y-l,2*h,l);
+
+        gz.st.yy = y - l;
+    }
+    if  (direction=="B") {
+        ct.fillStyle = clr;
+        ct.fillRect(x-3*h, y,6*h, l);
+
+        ct.fillStyle = clr2;
+        ct.fillRect(x-h, y,2*h,l);
+
+        gz.st.yy = y + l;
+
+    }
+
 }   
 
 
-gz.st.direction = "L";
+//gz.st.direction = "L";
 
-function gzTurnR(ct, x,y,h,clr,clr2) {
-var rx = x;
-var ry = y +  5*h;
-
+// Rx
+function gzTurn_RR(ct, rx,ry,h,clr,clr2) {
 ctx.beginPath();
-ctx.arc(rx,ry, 8*h-1, -(1/2)*Math.PI, 0);
+ctx.arc(rx,ry, 8*h, -(1/2)*Math.PI, 0);
 ctx.arc(rx,ry, 2*h, 0, -(1/2)*Math.PI, true);
-ctx.lineTo(rx, ry-8*h);
+//ctx.lineTo(rx, ry-8*h);
 ctx.strokeStyle = clr;
 ctx.fillStyle = clr;
 ctx.stroke();
@@ -96,24 +127,310 @@ ctx.fill();
 ctx.beginPath();
 ctx.arc(rx,ry, 6*h, -(1/2)*Math.PI, 0);
 ctx.arc(rx,ry, 4*h, 0, -(1/2)*Math.PI, true);
-ctx.lineTo(rx, ry-6*h);
+//ctx.lineTo(rx, ry-6*h);
 ctx.strokeStyle = clr2;
 ctx.fillStyle = clr2;
 ctx.stroke();
 ctx.fill();
+
+}
+
+function gzTurn_RB(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h, 0, (1/2)*Math.PI, false);
+ctx.arc(rx,ry, 2*h, (1/2)*Math.PI, 0, true);
+ctx.lineTo(rx+8*h, ry);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, 0, (1/2)*Math.PI, 0, false);
+ctx.arc(rx,ry, 4*h, (1/2)*Math.PI,0, true);
+ctx.lineTo(rx+6*h, ry);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+function gzTurn_RL(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h,  (1/2)*Math.PI, Math.PI, false);
+ctx.arc(rx,ry, 2*h, Math.PI, (1/2)*Math.PI, true);
+ctx.lineTo(rx, ry+8*h);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, (1/2)*Math.PI, Math.PI, false);
+ctx.arc(rx,ry, 4*h, Math.PI,(1/2)*Math.PI, true);
+ctx.lineTo(rx, ry+6*h);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+function gzTurn_RT(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h,  Math.PI, (3/2)*Math.PI, false);
+ctx.arc(rx,ry, 2*h, (3/2)*Math.PI, Math.PI, true);
+ctx.lineTo(rx-8*h, ry);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, Math.PI, (3/2)*Math.PI, false);
+ctx.arc(rx,ry, 4*h, (3/2)*Math.PI, Math.PI, true);
+ctx.lineTo(rx-6*h, ry);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+
+// Lx
+function gzTurn_LR(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h, (1/2)*Math.PI, 0, true);
+ctx.arc(rx,ry, 2*h, 0, (1/2)*Math.PI, false);
+//ctx.lineTo(rx, ry-8*h);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, (1/2)*Math.PI, 0, true);
+ctx.arc(rx,ry, 4*h, 0, (1/2)*Math.PI, false);
+//ctx.lineTo(rx, ry-6*h);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+function gzTurn_LB(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h, Math.PI, (1/2)*Math.PI, true);
+ctx.arc(rx,ry, 2*h, (1/2)*Math.PI, Math.PI, false);
+//ctx.lineTo(rx+8*h, ry);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, Math.PI, (1/2)*Math.PI, true);
+ctx.arc(rx,ry, 4*h, (1/2)*Math.PI, Math.PI, false);
+//ctx.lineTo(rx+6*h, ry);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+function gzTurn_LL(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h,  (-1/2)*Math.PI, Math.PI, true);
+ctx.arc(rx,ry, 2*h, Math.PI, (-1/2)*Math.PI, false);
+//ctx.lineTo(rx, ry+8*h);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, (-1/2)*Math.PI, Math.PI, true);
+ctx.arc(rx,ry, 4*h, Math.PI, (-1/2)*Math.PI, false);
+//ctx.lineTo(rx, ry+6*h);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+function gzTurn_LT(ct, rx,ry,h,clr,clr2) {
+ctx.beginPath();
+ctx.arc(rx,ry, 8*h,  0, (-1/2)*Math.PI, true);
+ctx.arc(rx,ry, 2*h, (-1/2)*Math.PI, 0, false);
+//ctx.lineTo(rx-8*h, ry);
+ctx.strokeStyle = clr;
+ctx.fillStyle = clr;
+ctx.stroke();
+ctx.fill();
+
+
+ctx.beginPath();
+ctx.arc(rx,ry, 6*h, 0, (-1/2)*Math.PI, true);
+ctx.arc(rx,ry, 4*h, (-1/2)*Math.PI, 0, false);
+//ctx.lineTo(rx-6*h, ry);
+ctx.strokeStyle = clr2;
+ctx.fillStyle = clr2;
+ctx.stroke();
+ctx.fill();
+
+}
+
+
+function gzTurnR(ct, x,y,h,clr,clr2,direction) {
+let rx = x;
+let ry = y +  5*h;
+switch (direction) {
+    case "R":
+        rx = x;
+        ry = y + 5*h;
+        gzTurn_RR(ct, rx,ry,h,clr,clr2);
+    break;
+    case "B":
+        rx = x - 5*h;
+        ry = y;
+        gzTurn_RB(ct, rx,ry,h,clr,clr2);
+    break;
+    case "L":
+        rx = x;
+        ry = y - 5*h;
+        gzTurn_RL(ct, rx,ry,h,clr,clr2);
+    break;
+    case "T":
+        rx = x + 5*h;
+        ry = y;
+        gzTurn_RT(ct, rx,ry,h,clr,clr2)
+    break;
+
+    default:
+    break;
+}
+
+if (direction=="R") {
+gz.st.direction = "B"; // L=> R=<  T=^ B=!^
+gz.st.xx = x + 5*h;
+gz.st.yy = y + 5*h;
+}   
+if (direction=="B") {
+gz.st.direction = "L"; // L=> R=<  T=^ B=!^
+gz.st.xx = x - 5*h;
+gz.st.yy = y + 5*h;
+}
+if (direction=="L") {
+gz.st.direction = "T"; // L=> R=<  T=^ B=!^
+gz.st.xx = x - 5*h;
+gz.st.yy = y - 5*h;
+}
+if (direction=="T") {
+gz.st.direction = "R"; // L=> R=<  T=^ B=!^
+gz.st.xx = x + 5*h;
+gz.st.yy = y - 5*h;
+}
+
+}   
+
+function gzTurnL(ct, x,y,h,clr,clr2,direction) {
+let rx = x;
+let ry = y -  5*h;
+switch (direction) {
+    case "R":
+        rx = x;
+        ry = y - 5*h;
+        gzTurn_LR(ct, rx,ry,h,clr,clr2);
+    break;
+    case "B":
+        rx = x + 5*h;
+        ry = y;
+        gzTurn_LB(ct, rx,ry,h,clr,clr2);
+    break;
+    case "L":
+        rx = x;
+        ry = y + 5*h;
+        gzTurn_LL(ct, rx,ry,h,clr,clr2);
+    break;
+    case "T":
+        rx = x - 5*h;
+        ry = y;
+        gzTurn_LT(ct, rx,ry,h,clr,clr2)
+    break;
+
+    default:
+    break;
+}
+
+if (direction=="R") {
+gz.st.direction = "T"; // L=> R=<  T=^ B=!^
+gz.st.xx = x + 5*h;
+gz.st.yy = y - 5*h;
+}   
+if (direction=="B") {
+gz.st.direction = "R"; // L=> R=<  T=^ B=!^
+gz.st.xx = x + 5*h;
+gz.st.yy = y + 5*h;
+}
+if (direction=="L") {
+gz.st.direction = "B"; // L=> R=<  T=^ B=!^
+gz.st.xx = x - 5*h;
+gz.st.yy = y + 5*h;
+}
+if (direction=="T") {
+gz.st.direction = "L"; // L=> R=<  T=^ B=!^
+gz.st.xx = x - 5*h;
+gz.st.yy = y - 5*h;
+}
+
 }   
 
 
 window.addEventListener( 'keyup', function (e) {
-    //console.log(e.keyCode);
+    console.log(e.keyCode);
     //console.log(e.type);
     //console.log("---");
+    if (e.keyCode==32){ // spacebar
+        gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+    }
+
+    if (e.keyCode==37){ // Left
+        gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+    //for (var i = 0; i < 3; i++) {
+    //for (var j = 0; j < 3; j++) {
+    //  ctx.save();
+    //  ctx.fillStyle = 'rgb(' + (51 * i) + ', ' + (255 - 51 * i) + ', 255)';
+    //  ctx.translate(10 + j * 50, 10 + i * 50);
+    //  ctx.fillRect(0, 0, 25, 25);
+    //  ctx.restore();
+    //}
+    //}
+    //ctx.save();
+    //ctx.translate(10 , 0);
+      //ctx.fillStyle = 'rgb(' + (51 * i) + ', ' + (255 - 51 * i) + ', 255)';
+      //ctx.translate(10 + j * 50, 10 + i * 50);
+      //ctx.fillRect(0, 0, 25, 25);
+    //ctx.restore();
+
+    }
     if (e.keyCode==39){
-        gzLeft(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli);
+        gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
     }
     if (e.keyCode==82){
-        gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli);
+        gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
     }
+    if (e.keyCode==76){
+        gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+    }
+
 });
 
 //ctx.lineWidth = 10;
