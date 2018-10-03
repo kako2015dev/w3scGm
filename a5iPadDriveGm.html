@@ -23,6 +23,8 @@ gz.st.xx = 10;
 gz.st.yy = 50;
 gz.st.direction = "R"; // L=> R=<  T=^ B=!^
 
+// L T R B - 37 38 39 40
+
 // es davamate from H ----
 //var wd = 20; // 1/6 sigane gzis, 2*wd = ShuaZoli
 //var l1 = 100;
@@ -393,17 +395,106 @@ gz.st.yy = y - 5*h;
 
 }   
 
+function gzBy4Key(newKeyDir, oldKeyDir) {
+    if (oldKeyDir == "R" ){
+        if (newKeyDir == "R" ) {
+            gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);  
+        }
+        if (newKeyDir == "B" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "L" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "T" ) {
+            gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        
+    }
+    if (oldKeyDir == "B" ){
+        if (newKeyDir == "B" ) {
+            gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);  
+        }
+        if (newKeyDir == "L" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "R" ) {
+            gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "T" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+
+
+    }
+    if (oldKeyDir == "L" ){
+        if (newKeyDir == "L" ) {
+            gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);  
+        }
+        if (newKeyDir == "T" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "B" ) {
+            gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "R" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        
+    }
+    if (oldKeyDir == "T" ){
+        if (newKeyDir == "T" ) {
+            gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);  
+        }
+        if (newKeyDir == "R" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "L" ) {
+            gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+        if (newKeyDir == "B" ) {
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+            gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        }
+
+    }
+
+}
 
 window.addEventListener( 'keyup', function (e) {
     console.log(e.keyCode);
     //console.log(e.type);
     //console.log("---");
     if (e.keyCode==32){ // spacebar
-        gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        //gzMove(ctx,gz.st.xx,gz.st.yy,gz.mp.l,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+    }
+    let nDir = "x";
+
+    if (e.keyCode==37){ // L
+        nDir = "L"
+    }
+    if (e.keyCode==38){ // T
+        nDir = "T"
+    }
+    if (e.keyCode==39){ // R
+        nDir = "R"
+    }
+    if (e.keyCode==40){ // B
+        nDir = "B"
     }
 
+    if (nDir == "L" || nDir == "T" || nDir == "R" || nDir == "B" ) {
+        gzBy4Key(nDir, gz.st.direction);
+    }
+
+
+
+
     if (e.keyCode==37){ // Left
-        gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        //gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
     //for (var i = 0; i < 3; i++) {
     //for (var j = 0; j < 3; j++) {
     //  ctx.save();
@@ -422,13 +513,13 @@ window.addEventListener( 'keyup', function (e) {
 
     }
     if (e.keyCode==39){
-        gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        //gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
     }
     if (e.keyCode==82){
-        gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        //gzTurnR(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
     }
     if (e.keyCode==76){
-        gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
+        //gzTurnL(ctx,gz.st.xx,gz.st.yy,gz.mp.wd,gz.mp.colorGza,gz.mp.colorGzaShuaZoli,gz.st.direction);
     }
 
 });
